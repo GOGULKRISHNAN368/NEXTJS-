@@ -1,4 +1,69 @@
+import QuizTimer from "../components/QuizTimer";
+import LivePlayers from "../components/LivePlayers";
 
+const styles = {
+  container: {
+    fontFamily: "Poppins, sans-serif",
+    padding: "2rem",
+    backgroundColor: "#f5f5f5",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  header: {
+    backgroundColor: "#fff",
+    padding: "1rem 2rem",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+    marginBottom: "2rem",
+  },
+  title: {
+    fontSize: "2.5rem",
+    fontWeight: "800",
+    margin: 0,
+    color: "#333",
+  },
+  link: {
+    marginRight: "1rem",
+    textDecoration: "none",
+    color: "#0070f3",
+    fontWeight: "600",
+  },
+  main: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: "2rem",
+    borderRadius: "8px",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+  },
+  heading: {
+    fontSize: "2rem",
+    marginBottom: "1rem",
+    color: "#222",
+  },
+  description: {
+    fontSize: "1.2rem",
+    marginBottom: "2rem",
+    color: "#555",
+  },
+  button: {
+    display: "inline-block",
+    padding: "0.75rem 1.5rem",
+    backgroundColor: "#0070f3",
+    color: "#fff",
+    borderRadius: "8px",
+    textDecoration: "none",
+    fontWeight: "600",
+    transition: "background 0.3s ease",
+  },
+  footer: {
+    textAlign: "center",
+    padding: "1rem",
+    marginTop: "2rem",
+    color: "#777",
+  },
+};
 
 export default function Home() {
   return (
@@ -6,7 +71,7 @@ export default function Home() {
       <header style={styles.header}>
         <h1 style={styles.title}>Trivio</h1>
         <nav>
-          <a href="#" style={styles.link}>Home</a>
+          <a href="/" style={styles.link}>Home</a>
           <a href="/about" style={styles.link}>About</a>
           <a href="/contact" style={styles.link}>Contact</a>
           <a href="/login" style={styles.link}>Login</a>
@@ -19,6 +84,11 @@ export default function Home() {
           Challenge your friends and test your knowledge with real-time multiplayer quizzes powered by AI.
         </p>
         <a href="/quiz" style={styles.button}>Start Quiz</a>
+
+        <div style={{ marginTop: "40px" }}>
+          <QuizTimer />
+          <LivePlayers />
+        </div>
       </main>
 
       <footer style={styles.footer}>
@@ -27,61 +97,3 @@ export default function Home() {
     </div>
   );
 }
-
-const styles = {
-  container: {
-    fontFamily: 'Arial, sans-serif',
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  header: {
-    backgroundColor: '#4A00E0',
-    color: '#fff',
-    padding: '20px 40px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  title: {
-    margin: 0,
-    fontSize: '28px',
-  },
-  link: {
-    marginLeft: '20px',
-    color: '#fff',
-    textDecoration: 'none',
-    fontWeight: 'bold',
-  },
-  main: {
-    flex: 1,
-    padding: '60px 20px',
-    textAlign: 'center',
-    backgroundColor: '#f0f0f0',
-  },
-  heading: {
-    fontSize: '36px',
-    marginBottom: '20px',
-  },
-  description: {
-    fontSize: '18px',
-    maxWidth: '600px',
-    margin: '0 auto 30px',
-  },
-  button: {
-    display: 'inline-block',
-    padding: '12px 30px',
-    backgroundColor: '#4A00E0',
-    color: '#fff',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontWeight: 'bold',
-    fontSize: '16px',
-  },
-  footer: {
-    padding: '20px',
-    textAlign: 'center',
-    backgroundColor: '#333',
-    color: '#ccc',
-  }
-};
