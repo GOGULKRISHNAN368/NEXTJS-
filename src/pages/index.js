@@ -1,5 +1,5 @@
-import QuizTimer from "../components/QuizTimer";
-import LivePlayers from "../components/LivePlayers";
+import { useState } from "react";
+import QuizWithTimer from "../components/QuizWithTimer";
 
 const styles = {
   container: {
@@ -55,7 +55,7 @@ const styles = {
     borderRadius: "8px",
     textDecoration: "none",
     fontWeight: "600",
-    transition: "background 0.3s ease",
+    cursor: "pointer",
   },
   footer: {
     textAlign: "center",
@@ -66,6 +66,8 @@ const styles = {
 };
 
 export default function Home() {
+  const [quizStarted, setQuizStarted] = useState(false);
+
   return (
     <div style={styles.container}>
       <header style={styles.header}>
@@ -79,16 +81,19 @@ export default function Home() {
       </header>
 
       <main style={styles.main}>
-        <h2 style={styles.heading}>Welcome to Trivio</h2>
-        <p style={styles.description}>
-          Challenge your friends and test your knowledge with real-time multiplayer quizzes powered by AI.
-        </p>
-        <a href="/quiz" style={styles.button}>Start Quiz</a>
-
-        <div style={{ marginTop: "40px" }}>
-          <QuizTimer />
-          <LivePlayers />
-        </div>
+        {!quizStarted ? (
+          <>
+            <h2 style={styles.heading}>Welcome to Trivio</h2>
+            <p style={styles.description}>
+              Challenge your friends and test your knowledge with real-time multiplayer quizzes powered by AI.
+            </p>
+            <button style={styles.button} onClick={() => setQuizStarted(true)}>
+              Start Quiz
+            </button>
+          </>
+        ) : (
+          <QuizWithTimer />
+        )}
       </main>
 
       <footer style={styles.footer}>
