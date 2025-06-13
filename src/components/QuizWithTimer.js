@@ -9,13 +9,19 @@ const QuizWithTimer = () => {
   const [timer, setTimer] = useState(20);
   const [showResult, setShowResult] = useState(false);
 
-  // Fetch quiz questions on mount
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const res = await fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple");
+        const res = await fetch(
+          "https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple"
+        );
         const data = await res.json();
-        setQuestions(data.results);
+        console.log("Fetched data:", data);  // ✅ log the response
+        if (Array.isArray(data.results) && data.results.length > 0) {
+          setQuestions(data.results);
+        } else {
+          console.error("No quiz questions found.");
+        }
       } catch (err) {
         console.error("Error fetching quiz:", err);
       }
@@ -24,9 +30,12 @@ const QuizWithTimer = () => {
     fetchQuiz();
   }, []);
 
-  // Set up options whenever question changes
   useEffect(() => {
-    if (questions.length > 0 && currentQIndex < questions.length) {
+    if (
+      Array.isArray(questions) &&
+      questions.length > 0 &&
+      currentQIndex < questions.length
+    ) {
       const q = questions[currentQIndex];
       const options = [...q.incorrect_answers, q.correct_answer];
       setShuffledOptions(options.sort(() => Math.random() - 0.5));
@@ -35,7 +44,6 @@ const QuizWithTimer = () => {
     }
   }, [questions, currentQIndex]);
 
-  // Timer countdown
   useEffect(() => {
     if (questions.length === 0 || showResult) return;
 
@@ -90,7 +98,15 @@ const QuizWithTimer = () => {
   const currentQ = questions[currentQIndex];
 
   return (
-    <div style={{ padding: "2rem", backgroundColor: "#fff", borderRadius: "8px" }}>
+    <div
+      style={{
+        padding: "2rem",
+        backgroundColor: "#fff",
+        borderRadius: "8px",
+        maxWidth: "600px",
+        margin: "auto",
+      }}
+    >
       <h3 style={{ color: "#0070f3" }}>Time Remaining: {timer}s</h3>
       <h2 dangerouslySetInnerHTML={{ __html: currentQ.question }} />
       <ul style={{ listStyle: "none", padding: 0 }}>

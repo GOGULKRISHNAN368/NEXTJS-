@@ -1,4 +1,9 @@
-import { useState } from "react";
+// pages/index.js
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../lib/firebaseConfig"; // ✅ CORRECT
+
+
 import QuizWithTimer from "../components/QuizWithTimer";
 
 const styles = {
@@ -67,6 +72,15 @@ const styles = {
 
 export default function Home() {
   const [quizStarted, setQuizStarted] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div style={styles.container}>
@@ -76,7 +90,16 @@ export default function Home() {
           <a href="/" style={styles.link}>Home</a>
           <a href="/about" style={styles.link}>About</a>
           <a href="/contact" style={styles.link}>Contact</a>
-          <a href="/login" style={styles.link}>Login</a>
+          {!user ? (
+            <a href="/login" style={styles.link}>Login</a>
+          ) : (
+            <button
+              onClick={() => signOut(auth)}
+              style={{ ...styles.link, background: "none", border: "none", cursor: "pointer" }}
+            >
+              Logout
+            </button>
+          )}
         </nav>
       </header>
 
@@ -87,7 +110,16 @@ export default function Home() {
             <p style={styles.description}>
               Challenge your friends and test your knowledge with real-time multiplayer quizzes powered by AI.
             </p>
-            <button style={styles.button} onClick={() => setQuizStarted(true)}>
+            <button
+              style={styles.button}
+              onClick={() => {
+                if (user) {
+                  setQuizStarted(true);
+                } else {
+                  alert("Please login to start the quiz.");
+                }
+              }}
+            >
               Start Quiz
             </button>
           </>
